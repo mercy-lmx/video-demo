@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Video Demo</title>
+  <meta name="description" content="Masquer" />
+  <style>
+    :root{
+      --bg:#0b0f17;
+      --card:#121a2a;
+      --text:#e8eefc;
+      --muted:#a9b6d3;
+      --line:rgba(255,255,255,.10);
+      --accent:#7aa2ff;
+      --shadow: 0 12px 30px rgba(0,0,0,.35);
+      --radius:16px;
+      --max: 980px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      background: radial-gradient(1200px 700px at 20% -10%, rgba(122,162,255,.25), transparent 60%),
+                  radial-gradient(900px 600px at 90% 0%, rgba(90,255,220,.12), transparent 55%),
+                  var(--bg);
+      color:var(--text);
+      line-height:1.55;
+    }
+    a{color:var(--accent); text-decoration:none}
+    a:hover{text-decoration:underline}
+    header{
+      position:sticky;
+      top:0;
+      z-index:10;
+      backdrop-filter: blur(10px);
+      background: rgba(11,15,23,.65);
+      border-bottom:1px solid var(--line);
+    }
+    .nav{
+      max-width:var(--max);
+      margin:0 auto;
+      padding:14px 18px;
+      display:flex;
+      gap:14px;
+      align-items:center;
+      justify-content:space-between;
+    }
+    .brand{
+      display:flex; gap:10px; align-items:center;
+      font-weight:700;
+    }
+    .dot{
+      width:10px; height:10px; border-radius:99px;
+      background: linear-gradient(135deg, #7aa2ff, #5affdc);
+      box-shadow: 0 0 0 4px rgba(122,162,255,.14);
+    }
+    .links{display:flex; gap:14px; flex-wrap:wrap; justify-content:flex-end}
+    .links a{
+      padding:8px 10px;
+      border:1px solid transparent;
+      border-radius:999px;
+      color:var(--muted);
+    }
+    .links a:hover{
+      border-color: var(--line);
+      color: var(--text);
+      text-decoration:none;
+      background: rgba(255,255,255,.04);
+    }
+
+    main{max-width:var(--max); margin:0 auto; padding:26px 18px 60px}
+    .hero{
+      display:grid;
+      gap:14px;
+      margin-top:8px;
+    }
+    .title{
+      font-size: clamp(22px, 3vw, 34px);
+      font-weight: 800;
+      letter-spacing:.2px;
+    }
+    .subtitle{
+      color:var(--muted);
+      max-width: 78ch;
+    }
+    .pillrow{display:flex; gap:10px; flex-wrap:wrap; margin-top:6px}
+    .pill{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:8px 12px;
+      background: rgba(255,255,255,.05);
+      border:1px solid var(--line);
+      border-radius:999px;
+      color:var(--muted);
+      font-size: 14px;
+    }
+    .pill b{color:var(--text); font-weight:700}
+
+    /* ✅ 关键：2 行 3 列，第二行第一列留空 */
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap:18px;
+      margin-top:18px;
+      grid-template-areas:
+        "v1 v2 v3"
+        ".  v4 v5";
+    }
+    .card.v1{grid-area:v1;}
+    .card.v2{grid-area:v2;}
+    .card.v3{grid-area:v3;}
+    .card.v4{grid-area:v4;}
+    .card.v5{grid-area:v5;}
+
+    @media (max-width: 920px){
+      .grid{
+        grid-template-columns: 1fr;
+        grid-template-areas:
+          "v1"
+          "v2"
+          "v3"
+          "v4"
+          "v5";
+      }
+    }
+
+    .card{
+      background: rgba(18,26,42,.86);
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .card .hd{
+      padding:14px 16px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      border-bottom:1px solid var(--line);
+    }
+    .card .hd .h{
+      font-weight:800;
+      letter-spacing:.2px;
+    }
+    .card .bd{padding:14px 16px}
+    .small{color:var(--muted); font-size:14px}
+    video{
+      width:100%;
+      height:auto;
+      display:block;
+      background:#000;
+      aspect-ratio: 16 / 9;
+    }
+    .video-meta{
+      display:flex; gap:10px; flex-wrap:wrap;
+      margin-top:10px;
+      align-items:center;
+      justify-content:space-between;
+    }
+    .btnrow{display:flex; gap:10px; flex-wrap:wrap}
+    button{
+      appearance:none;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.05);
+      color: var(--text);
+      padding:9px 12px;
+      border-radius: 12px;
+      cursor:pointer;
+      font-weight:650;
+    }
+    button:hover{background: rgba(255,255,255,.08)}
+    .select{
+      width:100%;
+      border-radius: 12px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.04);
+      color: var(--text);
+      padding:10px 12px;
+      outline:none;
+    }
+    .section{
+      margin-top:18px;
+      padding-top:8px;
+    }
+    .section h2{
+      margin:0 0 8px;
+      font-size: 18px;
+    }
+    .kvs{display:grid; gap:10px; margin-top:10px}
+    .kv{
+      padding:12px 12px;
+      border:1px solid var(--line);
+      border-radius: 14px;
+      background: rgba(255,255,255,.03);
+    }
+    .kv .k{font-weight:800}
+    .kv .v{color:var(--muted); margin-top:4px}
+    .foot{
+      margin-top: 26px;
+      color: var(--muted);
+      font-size: 14px;
+      border-top: 1px solid var(--line);
+      padding-top: 16px;
+    }
+    .toast{
+      position: fixed;
+      left: 50%;
+      bottom: 18px;
+      transform: translateX(-50%);
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: rgba(0,0,0,.65);
+      border:1px solid var(--line);
+      color: var(--text);
+      display:none;
+      z-index: 999;
+    }
+  </style>
+</head>
+
+<body>
+<header>
+  <div class="nav">
+    <div class="brand">
+      <span class="dot"></span>
+      <span>Video Demo</span>
+    </div>
+    <div class="links">
+      <a href="#demo">Demo</a>
+      <a href="#highlights">Highlights</a>
+      <a href="#setup">Setup</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="title">Masquer</div>
+    <div class="subtitle">video demo</div>
+  </section>
+
+  <div class="grid" id="demo">
+    <div class="card v1">
+      <div class="hd">
+        <div class="h">masq</div>
+        <div class="small" id="videoLabel1">1-5.mp4</div>
+      </div>
+      <video id="player1" controls playsinline preload="metadata">
+        <source src="./videos/masq.mp4" type="video/mp4" />
+        你的浏览器不支持 HTML5 video。
+      </video>
+    </div>
+
+    <div class="card v2">
+      <div class="hd">
+        <div class="h">tambur</div>
+        <div class="small" id="videoLabel2">2-5.mp4</div>
+      </div>
+      <video id="player2" controls playsinline preload="metadata">
+        <source src="./videos/tambur.mp4" type="video/mp4" />
+        你的浏览器不支持 HTML5 video。
+      </video>
+    </div>
+
+    <div class="card v3">
+      <div class="hd">
+        <div class="h">grace</div>
+        <div class="small" id="videoLabel3">3-5.mp4</div>
+      </div>
+      <video id="player3" controls playsinline preload="metadata">
+        <source src="./videos/grace.mp4" type="video/mp4" />
+        你的浏览器不支持 HTML5 video。
+      </video>
+    </div>
+
+    <div class="card v4">
+      <div class="hd">
+        <div class="h">tooth</div>
+        <div class="small" id="videoLabel4">4-5.mp4</div>
+      </div>
+      <video id="player4" controls playsinline preload="metadata">
+        <source src="./videos/tooth.mp4" type="video/mp4" />
+        你的浏览器不支持 HTML5 video。
+      </video>
+    </div>
+
+    <div class="card v5">
+      <div class="hd">
+        <div class="h">baroc</div>
+        <div class="small" id="videoLabel5">5-5.mp4</div>
+      </div>
+      <video id="player5" controls playsinline preload="metadata">
+        <source src="./videos/baroc.mp4" type="video/mp4" />
+        你的浏览器不支持 HTML5 video。
+      </video>
+    </div>
+  </div>
+</main>
+
+<script>
+  // 可以根据需要调整每个视频播放器的配置
+</script>
+
+</body>
+</html>
