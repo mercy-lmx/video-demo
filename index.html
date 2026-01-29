@@ -84,19 +84,7 @@
       color:var(--muted);
       max-width: 78ch;
     }
-    .pillrow{display:flex; gap:10px; flex-wrap:wrap; margin-top:6px}
-    .pill{
-      display:inline-flex; align-items:center; gap:8px;
-      padding:8px 12px;
-      background: rgba(255,255,255,.05);
-      border:1px solid var(--line);
-      border-radius:999px;
-      color:var(--muted);
-      font-size: 14px;
-    }
-    .pill b{color:var(--text); font-weight:700}
 
-    /* ✅ 控制按钮区 */
     .controls{
       display:flex;
       gap:10px;
@@ -116,7 +104,7 @@
     }
     button:hover{background: rgba(255,255,255,.08)}
 
-    /* ✅ 关键：2 行 3 列，第二行第一列留空 */
+    /* ✅ 关键：2 行 3 列，6 个视频填满 */
     .grid{
       display:grid;
       grid-template-columns: 1fr 1fr 1fr;
@@ -124,13 +112,14 @@
       margin-top:18px;
       grid-template-areas:
         "v1 v2 v3"
-        ".  v4 v5";
+        "v4 v5 v6";
     }
     .card.v1{grid-area:v1;}
     .card.v2{grid-area:v2;}
     .card.v3{grid-area:v3;}
     .card.v4{grid-area:v4;}
     .card.v5{grid-area:v5;}
+    .card.v6{grid-area:v6;}
 
     @media (max-width: 920px){
       .grid{
@@ -140,7 +129,8 @@
           "v2"
           "v3"
           "v4"
-          "v5";
+          "v5"
+          "v6";
       }
     }
 
@@ -210,12 +200,11 @@
     <div class="title">Masquer</div>
     <div class="subtitle">video demo</div>
 
-    <!-- ✅ 新增：全局控制按钮 -->
     <div class="controls">
-      <button id="btnPlayAll">▶️ 全部播放</button>
-      <button id="btnPauseAll">⏸ 全部暂停</button>
-      <button id="btnSyncTo1">⏱ 同步到 masq</button>
-      <button id="btnResetAll">↩️ 全部回到开头</button>
+      <button id="btnPlayAll">全部播放</button>
+      <button id="btnPauseAll">全部暂停</button>
+      <button id="btnSyncTo1">同步到 masq</button>
+      <button id="btnResetAll">全部回到开头</button>
     </div>
   </section>
 
@@ -223,7 +212,7 @@
     <div class="card v1">
       <div class="hd">
         <div class="h">masq</div>
-        <div class="small" id="videoLabel1">1-5.mp4</div>
+        <div class="small" id="videoLabel1">masq_100ms.mp4</div>
       </div>
       <video id="player1" controls playsinline preload="metadata">
         <source src="https://github.com/mercy-lmx/video-demo/releases/download/v1/masq_100ms.mp4?raw=1" type="video/mp4" />
@@ -234,10 +223,10 @@
     <div class="card v2">
       <div class="hd">
         <div class="h">tooth</div>
-        <div class="small" id="videoLabel2">2-5.mp4</div>
+        <div class="small" id="videoLabel2">tooth_100ms.mp4</div>
       </div>
       <video id="player2" controls playsinline preload="metadata">
-        <source src="https://github.com/mercy-lmx/video-demo/releases/download/v1/tooth_100ms.mp4?raw=1&v=202601271627" type="video/mp4" />
+        <source src="https://github.com/mercy-lmx/video-demo/releases/download/v1/tooth_100ms.mp4?raw=1" type="video/mp4" />
         你的浏览器不支持 HTML5 video。
       </video>
     </div>
@@ -245,7 +234,7 @@
     <div class="card v3">
       <div class="hd">
         <div class="h">tambur</div>
-        <div class="small" id="videoLabel3">3-5.mp4</div>
+        <div class="small" id="videoLabel3">tambur_100ms.mp4</div>
       </div>
       <video id="player3" controls playsinline preload="metadata">
         <source src="https://github.com/mercy-lmx/video-demo/releases/download/v1/tambur_100ms.mp4?raw=1" type="video/mp4" />
@@ -256,7 +245,7 @@
     <div class="card v4">
       <div class="hd">
         <div class="h">grace</div>
-        <div class="small" id="videoLabel4">4-5.mp4</div>
+        <div class="small" id="videoLabel4">grace_100ms.mp4</div>
       </div>
       <video id="player4" controls playsinline preload="metadata">
         <source src="https://github.com/mercy-lmx/video-demo/releases/download/v1/grace_100ms.mp4?raw=1" type="video/mp4" />
@@ -267,10 +256,22 @@
     <div class="card v5">
       <div class="hd">
         <div class="h">baroc</div>
-        <div class="small" id="videoLabel5">5-5.mp4</div>
+        <div class="small" id="videoLabel5">baroc_100ms.mp4</div>
       </div>
       <video id="player5" controls playsinline preload="metadata">
         <source src="https://github.com/mercy-lmx/video-demo/releases/download/v1/baroc_100ms.mp4?raw=1" type="video/mp4" />
+        你的浏览器不支持 HTML5 video。
+      </video>
+    </div>
+
+    <!-- ✅ 新增第 6 个视频：sample.mp4 -->
+    <div class="card v6">
+      <div class="hd">
+        <div class="h">sample</div>
+        <div class="small" id="videoLabel6">sample.mp4</div>
+      </div>
+      <video id="player6" controls playsinline preload="metadata">
+        <source src="sample.mp4" type="video/mp4" />
         你的浏览器不支持 HTML5 video。
       </video>
     </div>
@@ -286,6 +287,7 @@
     document.getElementById('player3'),
     document.getElementById('player4'),
     document.getElementById('player5'),
+    document.getElementById('player6'),
   ];
 
   const toastEl = document.getElementById('toast');
@@ -308,17 +310,17 @@
   }
 
   async function playAll(){
-    // ✅ 建议：只保留一个有声，避免 5 路声音混在一起
+    // 建议：只保留一个有声
     videos.forEach(v => { if (v) v.muted = true; });
 
-    // ✅ 先对齐再播放（更整齐）
+    // 先对齐再播放
     syncTo(videos[0]);
 
     const results = await Promise.allSettled(
       videos.map(v => v && v.play ? v.play() : Promise.reject(new Error('invalid video')))
     );
 
-    // ✅ 让第一个视频有声音（可选）
+    // 让第一个视频有声音（可选）
     if (videos[0]) videos[0].muted = false;
 
     const ok = results.filter(r => r.status === 'fulfilled').length;
@@ -348,6 +350,8 @@
 
 </body>
 </html>
+
+
 
 
 
