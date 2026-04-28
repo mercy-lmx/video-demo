@@ -1,413 +1,164 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Video Quality Study</title>
-  <style>
-    :root{
-      --bg:#0b0f17; --card:#121a2a; --text:#e8eefc;
-      --muted:#a9b6d3; --line:rgba(255,255,255,.10);
-      --accent:#7aa2ff; --shadow:0 12px 30px rgba(0,0,0,.35);
-      --radius:16px; --max:1180px;
-    }
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
-      background:radial-gradient(1200px 700px at 20% -10%,rgba(122,162,255,.25),transparent 60%),var(--bg);
-      color:var(--text);
-      line-height:1.55;
-    }
-    header{
-      position:sticky; top:0; z-index:10;
-      backdrop-filter:blur(10px);
-      background:rgba(11,15,23,.65);
-      border-bottom:1px solid var(--line);
-    }
-    .nav{
-      max-width:var(--max);
-      margin:0 auto;
-      padding:14px 18px;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-    }
-    .brand{display:flex; gap:10px; align-items:center; font-weight:700}
-    .dot{
-      width:10px; height:10px; border-radius:99px;
-      background:linear-gradient(135deg,#7aa2ff,#5affdc);
-      box-shadow:0 0 0 4px rgba(122,162,255,.14);
-    }
-    main{max-width:var(--max); margin:0 auto; padding:26px 18px 60px}
-    .title{font-size:clamp(24px,3vw,36px); font-weight:800}
-    .subtitle{color:var(--muted); max-width:85ch}
-    .instructions{
-      margin-top:14px;
-      padding:16px;
-      border:1px solid var(--line);
-      border-radius:var(--radius);
-      background:rgba(255,255,255,.04);
-      color:var(--muted);
-    }
-    .controls{display:flex; gap:10px; flex-wrap:wrap; margin-top:16px}
-    button{
-      border:1px solid var(--line);
-      background:rgba(255,255,255,.05);
-      color:var(--text);
-      padding:9px 12px;
-      border-radius:12px;
-      cursor:pointer;
-      font-weight:650;
-    }
-    button:hover{background:rgba(255,255,255,.08)}
-
-    .grid{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:18px;
-      margin-top:20px;
-      align-items:start;
-    }
-    .col{display:grid; gap:18px}
-    @media(max-width:900px){
-      .grid{grid-template-columns:1fr}
-    }
-
-    .card{
-      background:rgba(18,26,42,.86);
-      border:1px solid var(--line);
-      border-radius:var(--radius);
-      box-shadow:var(--shadow);
-      overflow:hidden;
-    }
-    .hd{
-      padding:14px 16px;
-      border-bottom:1px solid var(--line);
-      font-weight:800;
-    }
-    .bd{padding:14px 16px}
-    video{
-      width:100%;
-      display:block;
-      background:#000;
-      aspect-ratio:16/9;
-    }
-    .rating{
-      margin-top:12px;
-      padding-top:10px;
-      border-top:1px solid var(--line);
-    }
-    .rating-title{
-      font-weight:700;
-      margin-bottom:8px;
-    }
-    .rating-options{
-      display:flex;
-      gap:14px;
-      flex-wrap:wrap;
-      align-items:center;
-    }
-    label{
-      display:flex;
-      gap:5px;
-      align-items:center;
-      cursor:pointer;
-      color:var(--text);
-    }
-    input[type="radio"]{
-      width:16px;
-      height:16px;
-      accent-color:var(--accent);
-      cursor:pointer;
-    }
-    .submit-box{
-      margin-top:24px;
-      padding:18px;
-      border:1px solid var(--line);
-      border-radius:var(--radius);
-      background:rgba(255,255,255,.04);
-    }
-    .code{
-      margin-top:12px;
-      font-size:28px;
-      font-weight:800;
-      color:#5affdc;
-    }
-    .toast{
-      position:fixed;
-      left:50%;
-      bottom:18px;
-      transform:translateX(-50%);
-      padding:10px 12px;
-      border-radius:12px;
-      background:rgba(0,0,0,.65);
-      border:1px solid var(--line);
-      display:none;
-      z-index:999;
-    }
-  </style>
+<meta charset="utf-8">
+<title>Video Quality Study</title>
+<style>
+body{background:#0b0f17;color:#fff;font-family:sans-serif}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.col{display:grid;gap:20px}
+.card{background:#121a2a;padding:10px;border-radius:10px}
+video{width:100%}
+.rating{margin-top:10px}
+</style>
 </head>
 
 <body>
-<header>
-  <div class="nav">
-    <div class="brand">
-      <span class="dot"></span>
-      <span>Video Quality Study</span>
-    </div>
-  </div>
-</header>
 
-<main>
-  <section>
-    <div class="title">Video Quality Study</div>
-    <div class="subtitle">
-      Please watch all videos carefully and rate the overall viewing experience of each video.
-    </div>
+<h2>Video Quality Study</h2>
+<p>Please watch all videos and rate each from 1 to 5.</p>
 
-    <div class="instructions">
-      <b>Instructions:</b><br>
-      Please rate each video on a 1–5 scale based on your overall viewing experience.
-      Consider visual quality, smoothness, and responsiveness when making your decision.
-      <br><br>
-      1 = Bad, 2 = Poor, 3 = Fair, 4 = Good, 5 = Excellent.
-      Please select exactly one score for each video.
-    </div>
+<div class="grid">
 
-    <div class="controls">
-      <button id="btnPlayAll">Play All</button>
-      <button id="btnPauseAll">Pause All</button>
-      <button id="btnSyncTo1">Sync to Video 1</button>
-      <button id="btnResetAll">Restart All</button>
-    </div>
-  </section>
+<div class="col">
+<div class="card">
+<h3>Video 1</h3>
+<video id="v1" controls src="你的video1"></video>
+<div class="rating">
+<input type="radio" name="s1" value="1">1
+<input type="radio" name="s1" value="2">2
+<input type="radio" name="s1" value="3">3
+<input type="radio" name="s1" value="4">4
+<input type="radio" name="s1" value="5">5
+</div>
+</div>
 
-  <div class="grid">
-    <div class="col">
-      <div class="card">
-        <div class="hd">Video 1</div>
-        <video id="player1" controls playsinline preload="metadata">
-          <source src="https://github.com/mercy-lmx/video-demo/releases/download/v1/masq_100ms.mp4?raw=1" type="video/mp4">
-        </video>
-        <div class="bd rating">
-          <div class="rating-title">Your rating:</div>
-          <div class="rating-options">
-            <label><input type="radio" name="score1" value="1">1</label>
-            <label><input type="radio" name="score1" value="2">2</label>
-            <label><input type="radio" name="score1" value="3">3</label>
-            <label><input type="radio" name="score1" value="4">4</label>
-            <label><input type="radio" name="score1" value="5">5</label>
-          </div>
-        </div>
-      </div>
+<div class="card">
+<h3>Video 2</h3>
+<video controls src="你的video2"></video>
+<div class="rating">
+<input type="radio" name="s2" value="1">1
+<input type="radio" name="s2" value="2">2
+<input type="radio" name="s2" value="3">3
+<input type="radio" name="s2" value="4">4
+<input type="radio" name="s2" value="5">5
+</div>
+</div>
 
-      <div class="card">
-        <div class="hd">Video 2</div>
-        <video id="player2" controls playsinline preload="metadata">
-          <source src="https://github.com/mercy-lmx/video-demo/releases/download/v1/tooth_100ms.mp4?raw=1" type="video/mp4">
-        </video>
-        <div class="bd rating">
-          <div class="rating-title">Your rating:</div>
-          <div class="rating-options">
-            <label><input type="radio" name="score2" value="1">1</label>
-            <label><input type="radio" name="score2" value="2">2</label>
-            <label><input type="radio" name="score2" value="3">3</label>
-            <label><input type="radio" name="score2" value="4">4</label>
-            <label><input type="radio" name="score2" value="5">5</label>
-          </div>
-        </div>
-      </div>
+<div class="card">
+<h3>Video 3</h3>
+<video controls src="你的video3"></video>
+<div class="rating">
+<input type="radio" name="s3" value="1">1
+<input type="radio" name="s3" value="2">2
+<input type="radio" name="s3" value="3">3
+<input type="radio" name="s3" value="4">4
+<input type="radio" name="s3" value="5">5
+</div>
+</div>
 
-      <div class="card">
-        <div class="hd">Video 3</div>
-        <video id="player3" controls playsinline preload="metadata">
-          <source src="https://github.com/mercy-lmx/video-demo/releases/download/v1/tambur_100ms.mp4?raw=1" type="video/mp4">
-        </video>
-        <div class="bd rating">
-          <div class="rating-title">Your rating:</div>
-          <div class="rating-options">
-            <label><input type="radio" name="score3" value="1">1</label>
-            <label><input type="radio" name="score3" value="2">2</label>
-            <label><input type="radio" name="score3" value="3">3</label>
-            <label><input type="radio" name="score3" value="4">4</label>
-            <label><input type="radio" name="score3" value="5">5</label>
-          </div>
-        </div>
-      </div>
+<div class="card">
+<h3>Video 4</h3>
+<video controls src="你的video4"></video>
+<div class="rating">
+<input type="radio" name="s4" value="1">1
+<input type="radio" name="s4" value="2">2
+<input type="radio" name="s4" value="3">3
+<input type="radio" name="s4" value="4">4
+<input type="radio" name="s4" value="5">5
+</div>
+</div>
+</div>
 
-      <div class="card">
-        <div class="hd">Video 4</div>
-        <video id="player4" controls playsinline preload="metadata">
-          <source src="https://github.com/mercy-lmx/video-demo/releases/download/v1/sample.mp4?raw=1" type="video/mp4">
-        </video>
-        <div class="bd rating">
-          <div class="rating-title">Your rating:</div>
-          <div class="rating-options">
-            <label><input type="radio" name="score4" value="1">1</label>
-            <label><input type="radio" name="score4" value="2">2</label>
-            <label><input type="radio" name="score4" value="3">3</label>
-            <label><input type="radio" name="score4" value="4">4</label>
-            <label><input type="radio" name="score4" value="5">5</label>
-          </div>
-        </div>
-      </div>
-    </div>
+<div class="col">
+<div class="card">
+<h3>Video 5</h3>
+<video controls src="你的video5"></video>
+<div class="rating">
+<input type="radio" name="s5" value="1">1
+<input type="radio" name="s5" value="2">2
+<input type="radio" name="s5" value="3">3
+<input type="radio" name="s5" value="4">4
+<input type="radio" name="s5" value="5">5
+</div>
+</div>
 
-    <div class="col">
-      <div class="card">
-        <div class="hd">Video 5</div>
-        <video id="player5" controls playsinline preload="metadata">
-          <source src="https://github.com/mercy-lmx/video-demo/releases/download/v1/baroc_100ms.mp4?raw=1" type="video/mp4">
-        </video>
-        <div class="bd rating">
-          <div class="rating-title">Your rating:</div>
-          <div class="rating-options">
-            <label><input type="radio" name="score5" value="1">1</label>
-            <label><input type="radio" name="score5" value="2">2</label>
-            <label><input type="radio" name="score5" value="3">3</label>
-            <label><input type="radio" name="score5" value="4">4</label>
-            <label><input type="radio" name="score5" value="5">5</label>
-          </div>
-        </div>
-      </div>
+<div class="card">
+<h3>Video 6</h3>
+<video controls src="你的video6"></video>
+<div class="rating">
+<input type="radio" name="s6" value="1">1
+<input type="radio" name="s6" value="2">2
+<input type="radio" name="s6" value="3">3
+<input type="radio" name="s6" value="4">4
+<input type="radio" name="s6" value="5">5
+</div>
+</div>
 
-      <div class="card">
-        <div class="hd">Video 6</div>
-        <video id="player6" controls playsinline preload="metadata">
-          <source src="https://github.com/mercy-lmx/video-demo/releases/download/v1/grace_100ms.mp4?raw=1" type="video/mp4">
-        </video>
-        <div class="bd rating">
-          <div class="rating-title">Your rating:</div>
-          <div class="rating-options">
-            <label><input type="radio" name="score6" value="1">1</label>
-            <label><input type="radio" name="score6" value="2">2</label>
-            <label><input type="radio" name="score6" value="3">3</label>
-            <label><input type="radio" name="score6" value="4">4</label>
-            <label><input type="radio" name="score6" value="5">5</label>
-          </div>
-        </div>
-      </div>
+<div class="card">
+<h3>Video 7</h3>
+<video controls src="你的video7"></video>
+<div class="rating">
+<input type="radio" name="s7" value="1">1
+<input type="radio" name="s7" value="2">2
+<input type="radio" name="s7" value="3">3
+<input type="radio" name="s7" value="4">4
+<input type="radio" name="s7" value="5">5
+</div>
+</div>
+</div>
 
-      <div class="card">
-        <div class="hd">Video 7</div>
-        <video id="player7" controls playsinline preload="metadata">
-          <source src="https://github.com/mercy-lmx/video-demo/releases/download/v1/video7_100ms.mp4?raw=1" type="video/mp4">
-        </video>
-        <div class="bd rating">
-          <div class="rating-title">Your rating:</div>
-          <div class="rating-options">
-            <label><input type="radio" name="score7" value="1">1</label>
-            <label><input type="radio" name="score7" value="2">2</label>
-            <label><input type="radio" name="score7" value="3">3</label>
-            <label><input type="radio" name="score7" value="4">4</label>
-            <label><input type="radio" name="score7" value="5">5</label>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+</div>
 
-  <div class="submit-box">
-    <button id="btnSubmit">Submit Ratings</button>
-    <div id="result"></div>
-  </div>
-</main>
-
-<div class="toast" id="toast"></div>
+<br>
+<button onclick="submitAll()">Submit</button>
 
 <script>
-  const videos = [
-    document.getElementById('player1'),
-    document.getElementById('player2'),
-    document.getElementById('player3'),
-    document.getElementById('player4'),
-    document.getElementById('player5'),
-    document.getElementById('player6'),
-    document.getElementById('player7')
-  ];
+function getScore(i){
+  const r = document.querySelector(`input[name="s${i}"]:checked`);
+  return r ? r.value : null;
+}
 
-  const toastEl = document.getElementById('toast');
+function generateCode(){
+  return "mtvideo" + Math.floor(Math.random()*100000).toString().padStart(5,'0');
+}
 
-  function toast(msg){
-    toastEl.textContent = msg;
-    toastEl.style.display = 'block';
-    clearTimeout(toastEl._t);
-    toastEl._t = setTimeout(() => toastEl.style.display = 'none', 1600);
-  }
-
-  function safeSetTime(v, t){
-    try { v.currentTime = t; } catch(e) {}
-  }
-
-  function syncTo(ref){
-    const t = ref?.currentTime || 0;
-    videos.forEach(v => safeSetTime(v, t));
-    toast(`Synced to ${t.toFixed(2)}s`);
-  }
-
-  async function playAll(){
-    videos.forEach(v => { v.muted = true; });
-    syncTo(videos[0]);
-
-    const results = await Promise.allSettled(videos.map(v => v.play()));
-    videos[0].muted = false;
-
-    const ok = results.filter(r => r.status === 'fulfilled').length;
-    toast(`Playing ${ok} videos`);
-  }
-
-  function pauseAll(){
-    videos.forEach(v => v.pause());
-    toast('All videos paused');
-  }
-
-  function resetAll(){
-    videos.forEach(v => {
-      v.pause();
-      safeSetTime(v, 0);
-    });
-    toast('All videos restarted');
-  }
-
-  function getScore(i){
-    const checked = document.querySelector(`input[name="score${i}"]:checked`);
-    return checked ? checked.value : null;
-  }
-
-  function submitRatings(){
-    const scores = {};
-    for(let i = 1; i <= 7; i++){
-      const score = getScore(i);
-      if(!score){
-        alert(`Please rate Video ${i} before submitting.`);
-        return;
-      }
-      scores[`Video ${i}`] = score;
+function submitAll(){
+  let scores = [];
+  for(let i=1;i<=7;i++){
+    let s = getScore(i);
+    if(!s){
+      alert("Please rate all videos");
+      return;
     }
-
-    const code = Math.random().toString(36).substring(2,8).toUpperCase();
-
-    document.getElementById('result').innerHTML = `
-      <p>Thank you for completing the study.</p>
-      <p>Please copy the following completion code and submit it on MTurk:</p>
-      <div class="code">${code}</div>
-    `;
-
-    console.log('Ratings:', scores);
-    console.log('Completion code:', code);
+    scores.push(s);
   }
 
-  document.getElementById('btnPlayAll').addEventListener('click', playAll);
-  document.getElementById('btnPauseAll').addEventListener('click', pauseAll);
-  document.getElementById('btnSyncTo1').addEventListener('click', () => syncTo(videos[0]));
-  document.getElementById('btnResetAll').addEventListener('click', resetAll);
-  document.getElementById('btnSubmit').addEventListener('click', submitRatings);
+  let code = generateCode();
+
+  const formUrl = "https://docs.google.com/forms/d/e/1FAIpQLSf4YDJ0sZQEpiDz4M4VXZa9PGACwS4AP4qNn423l_bficFiAw/formResponse";
+
+  const data = new FormData();
+  data.append("entry.16441556", scores[0]);
+  data.append("entry.2025751820", scores[1]);
+  data.append("entry.1793582851", scores[2]);
+  data.append("entry.458650404", scores[3]);
+  data.append("entry.1719923684", scores[4]);
+  data.append("entry.418349952", scores[5]);
+  data.append("entry.1934328220", scores[6]);
+  data.append("entry.1290720256", code);
+
+  fetch(formUrl, {method:"POST",mode:"no-cors",body:data});
+
+  document.body.innerHTML = `
+    <h2>Thank you!</h2>
+    <p>Your completion code:</p>
+    <h1>${code}</h1>
+  `;
+}
 </script>
 
 </body>
 </html>
-
-
 
 
